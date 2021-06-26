@@ -1,0 +1,5 @@
+{
+  "restructuredtext.confPath": "${workspaceFolder}",
+  "jupyter.jupyterServerType": "local",
+  "python.pythonPath": "/Users/miyamoto/anaconda3/bin/python"
+}

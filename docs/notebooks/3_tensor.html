@@ -91,13 +91,15 @@
 <li class="toctree-l1"><a class="reference internal" href="1_simple.html">1. 簡単なODE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_nonlinear.html">2. 非線形ODE</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3. テンソルODE</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#3次元応力挙動">3.1. 3次元応力挙動</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Maxwellの応力挙動">3.1. Maxwellの応力挙動</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Giesekusの応力挙動">3.2. Giesekusの応力挙動</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="4_1D-field-fundamental.html">4. 1次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="5_1D-field-advance.html">5. 1次元場PDE - 応用編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="6_2D-field.html">6. 2次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7_2D-field_advance.html">7. 2次元場PDE - 応用編 -</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8_3D-field.html">8. 3次元場PDE</a></li>
 </ul>
 
             
@@ -445,8 +447,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<section id="3次元応力挙動">
-<h2><span class="section-number">3.1. </span>3次元応力挙動<a class="headerlink" href="#3次元応力挙動" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="Maxwellの応力挙動">
+<h2><span class="section-number">3.1. </span>Maxwellの応力挙動<a class="headerlink" href="#Maxwellの応力挙動" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>連続体を扱うとき，２階のテンソルが頻出する． 例えばMaxwell流体の３次元構成関係を見てみよう，応力<span class="math notranslate nohighlight">\(\sigma_{ij}\)</span>の時間発展は，<span class="math notranslate nohighlight">\(\kappa_{ij}=\nabla_i v_j\)</span>は速度勾配，<span class="math notranslate nohighlight">\(G\)</span>は平衡圧として，以下の形で書ける．</p>
 <div class="math notranslate nohighlight">
 \[\frac{{\rm d}\boldsymbol\sigma}{{\rm d} t} =
@@ -502,7 +504,10 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/notebooks_3_tensor_6_1.png" src="../_images/notebooks_3_tensor_6_1.png" />
 </div>
 </div>
-<p>これを，Giesekus流体に変更してみよう．　構成式は以下の形をしている．</p>
+</section>
+<section id="Giesekusの応力挙動">
+<h2><span class="section-number">3.2. </span>Giesekusの応力挙動<a class="headerlink" href="#Giesekusの応力挙動" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Giesekus流体に変更してみよう．　構成式は以下の形をしている．</p>
 <div class="math notranslate nohighlight">
 \[\frac{{\rm d}\boldsymbol\sigma}{{\rm d} t} =
 \boldsymbol\kappa\cdot\boldsymbol\sigma +
@@ -554,7 +559,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_3_tensor_10_1.png" src="../_images/notebooks_3_tensor_10_1.png" />
+<img alt="../_images/notebooks_3_tensor_11_1.png" src="../_images/notebooks_3_tensor_11_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">

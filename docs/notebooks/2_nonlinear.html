@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="1_simple.html">1. 簡単なODE</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. 非線形ODE</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#ローレンツアトラクタ">2.1. ローレンツアトラクタ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#SIRモデル">2.2. SIRモデル</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="3_tensor.html">3. テンソルODE</a></li>
@@ -98,6 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="5_1D-field-advance.html">5. 1次元場PDE - 応用編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="6_2D-field.html">6. 2次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7_2D-field_advance.html">7. 2次元場PDE - 応用編 -</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8_3D-field.html">8. 3次元場PDE</a></li>
 </ul>
 
             
@@ -497,6 +499,66 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_2_nonlinear_6_1.svg" src="../_images/notebooks_2_nonlinear_6_1.svg" /></div>
+</div>
+</section>
+<section id="SIRモデル">
+<h2><span class="section-number">2.2. </span>SIRモデル<a class="headerlink" href="#SIRモデル" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>最近有名なやつ． <a class="reference external" href="https://ja.wikipedia.org/wiki/%E7%96%AB%E5%AD%A6%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%8C%BA%E7%94%BB%E3%83%A2%E3%83%87%E3%83%AB">https://ja.wikipedia.org/wiki/%E7%96%AB%E5%AD%A6%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%8C%BA%E7%94%BB%E3%83%A2%E3%83%87%E3%83%AB</a></p>
+<p>Sが感染しうる個体，Iが感染者，Rが免疫，死亡，位置的などの意味での抵抗獲得者を表す．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{eqnarray}
+\frac{{\rm d}S}{{\rm d}t}&amp;&amp;=-\frac{\beta IS}{N}\\
+\frac{{\rm d}I}{{\rm d}t}&amp;&amp;=+\frac{\beta IS}{N}-\gamma I\\
+\frac{{\rm d}R}{{\rm d}t}&amp;&amp;=\gamma I\\
+\end{eqnarray}\end{split}\]</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">init</span>   <span class="o">=</span> <span class="p">[</span><span class="n">N</span><span class="o">*</span><span class="mf">0.9</span><span class="p">,</span><span class="n">N</span><span class="o">*</span><span class="mf">0.05</span><span class="p">,</span><span class="n">N</span><span class="o">*</span><span class="mf">0.05</span><span class="p">]</span>
+<span class="n">t_span</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">10.0</span><span class="p">]</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">t_span</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span> <span class="c1"># time for sampling</span>
+<span class="n">β</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">;</span> <span class="n">γ</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
+<span class="k">def</span> <span class="nf">lorenz</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">SIR</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">β</span><span class="p">,</span><span class="n">γ</span><span class="p">):</span>
+    <span class="n">S</span><span class="p">,</span><span class="n">I</span><span class="p">,</span><span class="n">R</span> <span class="o">=</span> <span class="n">SIR</span>
+    <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="n">β</span><span class="o">*</span><span class="n">I</span><span class="o">*</span><span class="n">S</span><span class="o">/</span><span class="n">N</span><span class="p">,</span> <span class="o">+</span><span class="n">β</span><span class="o">*</span><span class="n">I</span><span class="o">*</span><span class="n">S</span><span class="o">/</span><span class="n">N</span><span class="o">-</span><span class="n">γ</span><span class="o">*</span><span class="n">I</span><span class="p">,</span> <span class="n">γ</span><span class="o">*</span><span class="n">I</span><span class="p">]</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">lorenz</span><span class="p">,</span><span class="n">t_span</span><span class="p">,</span><span class="n">init</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;RK45&#39;</span><span class="p">,</span><span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">β</span><span class="p">,</span><span class="n">γ</span><span class="p">,))</span>
+</pre></div>
+</div>
+</div>
+<p>基本再生産数<span class="math notranslate nohighlight">\(\beta/\gamma\)</span>を15にした．</p>
+<p><a class="reference external" href="http://idsc.nih.go.jp/training/22kanri/22pdf/sep16_01.pdf">http://idsc.nih.go.jp/training/22kanri/22pdf/sep16_01.pdf</a></p>
+<p>によると“はしか”がこのくらい．　結構な感染爆発が起きるが，中々治らない．という予想になる．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="p">,</span><span class="n">I</span><span class="p">,</span><span class="n">R</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;S&#39;</span><span class="p">,</span><span class="s1">&#39;I&#39;</span><span class="p">,</span><span class="s1">&#39;R&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7fb28833b160&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_2_nonlinear_11_1.png" src="../_images/notebooks_2_nonlinear_11_1.png" />
+</div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:

@@ -42,6 +42,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="8. 3次元場PDE" href="8_3D-field.html" />
     <link rel="prev" title="6. 2次元場PDE - 基礎編 -" href="6_2D-field.html" /> 
 </head>
 
@@ -94,9 +95,11 @@
 <li class="toctree-l1"><a class="reference internal" href="5_1D-field-advance.html">5. 1次元場PDE - 応用編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="6_2D-field.html">6. 2次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">7. 2次元場PDE - 応用編 -</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#非圧縮Navie-Stokes方程式">7.1. 非圧縮Navie-Stokes方程式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#TDGLのスピノーダル分解">7.1. TDGLのスピノーダル分解</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#非圧縮Navie-Stokes方程式">7.2. 非圧縮Navie-Stokes方程式</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="8_3D-field.html">8. 3次元場PDE</a></li>
 </ul>
 
             
@@ -443,12 +446,87 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">convolve2d</span>
 <span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
-<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
 </pre></div>
 </div>
 </div>
+<section id="TDGLのスピノーダル分解">
+<h2><span class="section-number">7.1. </span>TDGLのスピノーダル分解<a class="headerlink" href="#TDGLのスピノーダル分解" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>TDGLは時間依存ギンツブルグランダウの略である．オーダーパラメータ<span class="math notranslate nohighlight">\(\psi\)</span>の保存則が，</p>
+<div class="math notranslate nohighlight">
+\[\psi = (\partial_{xx}+\partial_{yy})\mu\]</div>
+<p>であり，<span class="math notranslate nohighlight">\(\mu\)</span>はGL-Wilsonハミルトニアンの<span class="math notranslate nohighlight">\(\Psi\)</span>微分であって，</p>
+<div class="math notranslate nohighlight">
+\[\mu = - \psi + \psi^3 - (\partial_{xx}+\partial_{yy})\psi\]</div>
+<p>定数を除いて書けるとする．　相分離によるスピノーダル分解を見てみよう．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># parameter</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">Nx</span> <span class="o">=</span> <span class="n">Ny</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">Δ</span> <span class="o">=</span> <span class="n">Δx</span> <span class="o">=</span> <span class="n">Δy</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">D</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">Δ</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span>   <span class="n">D</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="n">D</span>  <span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">D</span><span class="p">,</span>  <span class="n">D</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>   <span class="n">D</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],])</span>
+<span class="c1"># init</span>
+<span class="n">Ψ</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="mf">0.1</span>
+<span class="n">Ψ</span> <span class="o">-=</span> <span class="n">Ψ</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">init</span> <span class="o">=</span> <span class="n">Ψ</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="c1"># time</span>
+<span class="n">t_span</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">]</span>
+<span class="n">t_eval</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">t_span</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># ODEs</span>
+<span class="k">def</span> <span class="nf">ODEs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">Ψ</span><span class="p">):</span>
+    <span class="n">Ψ</span> <span class="o">=</span> <span class="n">Ψ</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="o">-</span> <span class="n">Ψ</span> <span class="o">+</span> <span class="n">Ψ</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="n">convolve2d</span><span class="p">(</span><span class="n">Ψ</span><span class="p">,</span><span class="n">A</span><span class="p">,</span><span class="s1">&#39;same&#39;</span><span class="p">,</span><span class="s1">&#39;wrap&#39;</span><span class="p">)</span>
+    <span class="n">dΨ</span> <span class="o">=</span> <span class="n">convolve2d</span><span class="p">(</span><span class="n">μ</span><span class="p">,</span><span class="n">A</span><span class="p">,</span><span class="s1">&#39;same&#39;</span><span class="p">,</span><span class="s1">&#39;wrap&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dΨ</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="c1">#</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">ODEs</span><span class="p">,</span><span class="n">t_span</span><span class="p">,</span><span class="n">init</span><span class="p">,</span><span class="s1">&#39;RK23&#39;</span><span class="p">,</span><span class="n">t_eval</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">vmax</span><span class="p">,</span><span class="n">vmin</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">Ψ</span> <span class="ow">in</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+    <span class="n">Ψ</span> <span class="o">=</span> <span class="n">Ψ</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="c1">#     ax.imshow(Ψ,cmap=&#39;jet&#39;)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Ψ</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_7_2D-field_advance_5_0.png" src="../_images/notebooks_7_2D-field_advance_5_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_7_2D-field_advance_5_1.png" src="../_images/notebooks_7_2D-field_advance_5_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_7_2D-field_advance_5_2.png" src="../_images/notebooks_7_2D-field_advance_5_2.png" />
+</div>
+</div>
+</section>
 <section id="非圧縮Navie-Stokes方程式">
-<h2><span class="section-number">7.1. </span>非圧縮Navie-Stokes方程式<a class="headerlink" href="#非圧縮Navie-Stokes方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2><span class="section-number">7.2. </span>非圧縮Navie-Stokes方程式<a class="headerlink" href="#非圧縮Navie-Stokes方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -468,6 +546,8 @@ div.rendered_html tbody tr:hover {
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="8_3D-field.html" class="btn btn-neutral float-right" title="8. 3次元場PDE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="6_2D-field.html" class="btn btn-neutral float-left" title="6. 2次元場PDE - 基礎編 -" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

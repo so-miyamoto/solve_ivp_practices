@@ -5,11 +5,10 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ODE numerical recipe for python &mdash; ode-collections 1.0 ドキュメント</title>
+  <title>Pythonで解く微分方程式(有限差分法) &mdash; ode-collections 1.0 ドキュメント</title>
   
 
   
@@ -22,12 +21,14 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
         <script src="_static/translations.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -36,8 +37,6 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="1. 簡単なODE" href="notebooks/1_simple.html" /> 
@@ -92,7 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notebooks/5_1D-field-advance.html">5. 1次元場PDE - 応用編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/6_2D-field.html">6. 2次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/7_2D-field_advance.html">7. 2次元場PDE - 応用編 -</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/8_3D-field.html">8. 3次元場PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/99_appendix.html">8. おまけ</a></li>
 </ul>
 
             
@@ -138,7 +137,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>ODE numerical recipe for python</li>
+      <li>Pythonで解く微分方程式(有限差分法)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -181,18 +180,36 @@
     text-align: unset;
 }
 </style>
-<section id="ode-numerical-recipe-for-python">
-<h1>ODE numerical recipe for python<a class="headerlink" href="#ode-numerical-recipe-for-python" title="このヘッドラインへのパーマリンク">¶</a></h1>
-</section>
-<section id="scipy-solve-ivp">
-<h1>序：scipy.solve_ivpとは<a class="headerlink" href="#scipy-solve-ivp" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>連立ODEの時間発展を高精度に解いてくれるすごいやつです．
-詳しくは公式サイトの解説を読んでね．</p>
+<div class="section" id="python">
+<h1>Pythonで解く微分方程式(有限差分法)<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h1>
+</div>
+<div class="section" id="id1">
+<h1>対象<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>数値計算をやってる物理，化学系の学生向け</p>
+</div>
+<div class="section" id="id2">
+<h1>はじめに<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>物理現象を記述する微分方程式を数値的に解く，みたいなのは理系専攻のカリキュラムでどこもやっていると思います．
+とりあえず差分化してコードに直せば，解を出してくれて，グラフに直せばそのイメージが掴めるとても便利な方法です．</p>
+<p>一方で面倒なこともあります．</p>
+<p>一つがコードを書く手間です．
+数値計算の講義ではCが主流かと思いますが，C言語は手軽に扱うには向きません．
+デバッグに費やす時間もかかります．</p>
+<p>また，刻み幅の調整も問題です．
+この値が大きすぎると正しい解が得られません，また，小さすぎると計算時間がかかりすぎます．</p>
+<p>この二つの面倒さに対し，自分なりに解決を行いましたので，紹介したいと思い，公開することにしました</p>
+</div>
+<div class="section" id="pythonscipy-integrate-solve-ivp">
+<h1>pythonとscipy.integrate.solve_ivp<a class="headerlink" href="#pythonscipy-integrate-solve-ivp" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>まず，言語としてPythonを採用します．pythonといえば遅い言語のイメージがありますが，数値計算ライブラリの拡充により，ちょっとした計算をやるときには個人的にほぼ一択です．
+そして，pythonのscipy.integrateライブラリからsolve_ivpを用います．
+solve_ivpは，(下は公式の解説)，刻み幅の自動調節を行ってくれる(連立)常微分方程式solverです．</p>
 <p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp">https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp</a></p>
-<p>本文章では，具体的な物理モデルへの応用に用い，その結果を楽しむことを目的とします．</p>
-</section>
-<section id="id1">
-<h1>コンテンツ<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>これによりできるだけ簡潔なコードから差分化された微分方程式を解いていきたいと思います．</p>
+<p>できるだけ沢山の具体例に挑戦しましたので，結果を楽しんでいただけたらと思います．</p>
+</div>
+<div class="section" id="id3">
+<h1>コンテンツ<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/1_simple.html">1. 簡単なODE</a><ul>
@@ -232,13 +249,19 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/7_2D-field_advance.html">7. 2次元場PDE - 応用編 -</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/7_2D-field_advance.html#TDGLのスピノーダル分解">7.1. TDGLのスピノーダル分解</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/7_2D-field_advance.html#非圧縮Navie-Stokes方程式">7.2. 非圧縮Navie-Stokes方程式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/7_2D-field_advance.html#非圧縮性Navie-Stokes方程式">7.2. 非圧縮性Navie-Stokes方程式</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/8_3D-field.html">8. 3次元場PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/99_appendix.html">8. おまけ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/99_appendix.html#非圧縮性Navie-Stokes方程式">8.1. 非圧縮性Navie-Stokes方程式</a></li>
+</ul>
+</li>
 </ul>
 </div>
-</section>
+</div>
+<div class="section" id="id4">
+<h1>参考文献<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h1>
+</div>
 
 
            </div>

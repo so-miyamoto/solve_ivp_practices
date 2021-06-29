@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>5. 1次元場PDE - 応用編 - &mdash; ode-collections 1.0 ドキュメント</title>
@@ -22,14 +21,14 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
         <script src="../_static/translations.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -38,8 +37,6 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="6. 2次元場PDE - 基礎編 -" href="6_2D-field.html" />
@@ -102,7 +99,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="6_2D-field.html">6. 2次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7_2D-field_advance.html">7. 2次元場PDE - 応用編 -</a></li>
-<li class="toctree-l1"><a class="reference internal" href="8_3D-field.html">8. 3次元場PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="99_appendix.html">8. おまけ</a></li>
 </ul>
 
             
@@ -437,9 +434,9 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="1次元場PDE---応用編--">
+<div class="section" id="1次元場PDE---応用編--">
 <h1><span class="section-number">5. </span>1次元場PDE - 応用編 -<a class="headerlink" href="#1次元場PDE---応用編--" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="Burgers方程式">
+<div class="section" id="Burgers方程式">
 <h2><span class="section-number">5.1. </span>Burgers方程式<a class="headerlink" href="#Burgers方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -452,10 +449,10 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>ナビエストークス方程式の移流項<span class="math notranslate nohighlight">\(u\partial_x u\)</span>と粘性項<span class="math notranslate nohighlight">\(\partial_{xx} u\)</span>のみを考慮する．</p>
+<p>ナビエストークス方程式の移流項<span class="math notranslate nohighlight">\(u\partial_x u\)</span>と粘性項<span class="math notranslate nohighlight">\(\partial_{xx} u\)</span>のみを考える形です．</p>
 <div class="math notranslate nohighlight">
 \[\partial_t u + \lambda_1 u\partial_x u = \lambda_2 \partial_{xx} u\]</div>
-<p>移流拡散方程式とも呼ばれている．</p>
+<p>移流拡散方程式とも呼ばれています．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -509,13 +506,13 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/notebooks_5_1D-field-advance_6_1.png" src="../_images/notebooks_5_1D-field-advance_6_1.png" />
 </div>
 </div>
-</section>
-<section id="KdV方程式">
+</div>
+<div class="section" id="KdV方程式">
 <h2><span class="section-number">5.2. </span>KdV方程式<a class="headerlink" href="#KdV方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>コルトヴェーグと，ド・フリースにより定式化された．非線形波を表す方程式．</p>
+<p>コルトヴェーグと，ド・フリースにより定式化された．非線形波を表す方程式です．</p>
 <div class="math notranslate nohighlight">
 \[\partial_t u + 6u \partial_x u + \partial_{xxx}u=0\]</div>
-<p>パラメータは，この論文を参考にさせていただいた． <a class="reference external" href="http://advances.sciencemag.org/content/3/4/e1602614">http://advances.sciencemag.org/content/3/4/e1602614</a></p>
+<p>パラメータは，この論文を参考にさせていただきました． <a class="reference external" href="http://advances.sciencemag.org/content/3/4/e1602614">http://advances.sciencemag.org/content/3/4/e1602614</a></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -540,7 +537,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>正規分布の初期速度を置いた．時間の進行とともに幾つかの孤立波になる．</p>
+<p>正規分布の初期速度を置いた．時間の進行とともに幾つかの孤立波になっています．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -567,10 +564,10 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/notebooks_5_1D-field-advance_11_1.png" src="../_images/notebooks_5_1D-field-advance_11_1.png" />
 </div>
 </div>
-</section>
-<section id="KS方程式">
+</div>
+<div class="section" id="KS方程式">
 <h2><span class="section-number">5.3. </span>KS方程式<a class="headerlink" href="#KS方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>蔵元ーシバシンスキー方程式．火砕流の挙動を表すよう定式化された．4階微分が特徴的．拡散の強さが拡散する．</p>
+<p>蔵元ーシバシンスキー方程式．火砕流の挙動を表すよう定式化されました．4階微分が特徴的．拡散の強さが拡散します．</p>
 <div class="math notranslate nohighlight">
 \[\partial_t u + u\partial_x u + \partial_{xx} u + \partial_{xxxx} u = 0\]</div>
 <div class="nbinput nblast docutils container">
@@ -599,7 +596,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>インパクトあって目に楽しい図ができる</p>
+<p>インパクトあって目に楽しい図ができます</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -626,13 +623,13 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/notebooks_5_1D-field-advance_16_1.png" src="../_images/notebooks_5_1D-field-advance_16_1.png" />
 </div>
 </div>
-</section>
-<section id="Schorodinger方程式">
+</div>
+<div class="section" id="Schorodinger方程式">
 <h2><span class="section-number">5.4. </span>Schorodinger方程式<a class="headerlink" href="#Schorodinger方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>理系大学生の関門として名高いシュレディンガー方程式．数値計算を通してイメージを掴んでみよう． 一次元では，定数を1，二次関数型のポテンシャル場<span class="math notranslate nohighlight">\(V(x)=x^2/2\)</span>を考えると以下の形で書ける．</p>
+<p>理系大学生の関門として名高いシュレディンガー方程式．数値計算を通してイメージを掴んでみましょう． 一次元では，定数を1，二次関数型のポテンシャル場<span class="math notranslate nohighlight">\(V(x)=x^2/2\)</span>を考えると以下の形で書けます．</p>
 <div class="math notranslate nohighlight">
 \[i\partial_t \Psi = -\left(\frac{1}{2}\partial_{xx}- \frac{x^2}{2}\right)\Psi\]</div>
-<p>ちなみにsolve_ivpはcomplexもrealと変わらず扱える．すごい!</p>
+<p>ちなみにsolve_ivpはcomplexもrealと変わらず扱えます．すごい!</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -657,7 +654,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>ポテンシャルによって電子波が中心にトラップされている．</p>
+<p>ポテンシャルによって電子波が中心にトラップされています．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -693,10 +690,10 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/notebooks_5_1D-field-advance_21_2.png" src="../_images/notebooks_5_1D-field-advance_21_2.png" />
 </div>
 </div>
-</section>
-<section id="Non-linear-Schirodinger方程式">
+</div>
+<div class="section" id="Non-linear-Schirodinger方程式">
 <h2><span class="section-number">5.5. </span>Non-linear Schirodinger方程式<a class="headerlink" href="#Non-linear-Schirodinger方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ポテンシャル関数が<span class="math notranslate nohighlight">\(V(x)=|\Psi|^2\)</span>(引力)のときも有名．</p>
+<p>ポテンシャル関数が<span class="math notranslate nohighlight">\(V(x)=|\Psi|^2\)</span>(引力)のときも有名です．</p>
 <div class="math notranslate nohighlight">
 \[i\partial_t \Psi = -\left(\frac{1}{2}\partial_{xx}+ |\Psi|^2\right)\Psi\]</div>
 <div class="nbinput nblast docutils container">
@@ -767,8 +764,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>1. 簡単なODE &mdash; ode-collections 1.0 ドキュメント</title>
@@ -22,14 +21,14 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
         <script src="../_static/translations.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -38,12 +37,10 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="2. 非線形ODE" href="2_nonlinear.html" />
-    <link rel="prev" title="ODE numerical recipe for python" href="../index.html" /> 
+    <link rel="prev" title="Pythonで解く微分方程式(有限差分法)" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -99,7 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="5_1D-field-advance.html">5. 1次元場PDE - 応用編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="6_2D-field.html">6. 2次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7_2D-field_advance.html">7. 2次元場PDE - 応用編 -</a></li>
-<li class="toctree-l1"><a class="reference internal" href="8_3D-field.html">8. 3次元場PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="99_appendix.html">8. おまけ</a></li>
 </ul>
 
             
@@ -434,7 +431,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="簡単なODE">
+<div class="section" id="簡単なODE">
 <h1><span class="section-number">1. </span>簡単なODE<a class="headerlink" href="#簡単なODE" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -447,9 +444,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<section id="単一緩和の減衰挙動">
+<div class="section" id="単一緩和の減衰挙動">
 <h2><span class="section-number">1.1. </span>単一緩和の減衰挙動<a class="headerlink" href="#単一緩和の減衰挙動" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>まず，　単一緩和の減衰運動を解いてみる．</p>
+<p>まず，　単一緩和の減衰運動を解いてみましょう．</p>
 <div class="math notranslate nohighlight">
 \[\frac{{\rm d}x}{{\rm d}t} = -x\]</div>
 <div class="nbinput nblast docutils container">
@@ -465,7 +462,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>内部で精度を保証できるよう時間刻みを勝手に調整してくれる．嬉しいね!</p>
+<p>内部で精度を保証できるよう時間刻みを勝手に調整してくれます．嬉しいですね!</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -501,17 +498,17 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_1_simple_6_2.svg" src="../_images/notebooks_1_simple_6_2.svg" /></div>
 </div>
-</section>
-<section id="1次元調和振動子">
+</div>
+<div class="section" id="1次元調和振動子">
 <h2><span class="section-number">1.2. </span>1次元調和振動子<a class="headerlink" href="#1次元調和振動子" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>次に，古典系での1次元調和振動子を例に挙げる． ハミルトニアンが以下の形で書き下せる．</p>
+<p>次に，古典系での1次元調和振動子を例に挙げる． ハミルトニアンを書き下します．</p>
 <div class="math notranslate nohighlight">
 \[H = \frac{p^2}{2} + \frac{q^2}{2}\]</div>
-<p>簡単のため定数は1としている．　正準方程式から連立ODEを得る．</p>
+<p>簡単のため定数は1としました．　正準方程式から連立ODEを得ます．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\dot p = -q\\
 \dot q = p\end{split}\]</div>
-<p>勿論，連立ODEも簡単に扱うことができる．</p>
+<p>勿論，連立ODEも簡単に扱うことができます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -554,14 +551,14 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_1_simple_10_1.svg" src="../_images/notebooks_1_simple_10_1.svg" /></div>
 </div>
-<p>高階の常微分方程式としても簡単に解ける．これは調和振動の運動方程式による表現を例にする．</p>
+<p>運動方程式による表現でも同じです．</p>
 <div class="math notranslate nohighlight">
 \[\frac{{\rm d}^2 x}{{\rm d}t^2} = -x\]</div>
 <p>ここで，</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\frac{{\rm d} x}{{\rm d}t}  = x'\\
 \frac{{\rm d} x'}{{\rm d}t} = -x\end{split}\]</div>
-<p>と線形化する</p>
+<p>と線形化しました</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -604,8 +601,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -618,7 +615,7 @@ div.rendered_html tbody tr:hover {
         <a href="2_nonlinear.html" class="btn btn-neutral float-right" title="2. 非線形ODE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral float-left" title="ODE numerical recipe for python" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="Pythonで解く微分方程式(有限差分法)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>2. 非線形ODE &mdash; ode-collections 1.0 ドキュメント</title>
@@ -22,14 +21,14 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
         <script src="../_static/translations.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -38,8 +37,6 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="3. テンソルODE" href="3_tensor.html" />
@@ -99,7 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="5_1D-field-advance.html">5. 1次元場PDE - 応用編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="6_2D-field.html">6. 2次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7_2D-field_advance.html">7. 2次元場PDE - 応用編 -</a></li>
-<li class="toctree-l1"><a class="reference internal" href="8_3D-field.html">8. 3次元場PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="99_appendix.html">8. おまけ</a></li>
 </ul>
 
             
@@ -434,7 +431,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="非線形ODE">
+<div class="section" id="非線形ODE">
 <h1><span class="section-number">2. </span>非線形ODE<a class="headerlink" href="#非線形ODE" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -448,16 +445,16 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<section id="ローレンツアトラクタ">
+<div class="section" id="ローレンツアトラクタ">
 <h2><span class="section-number">2.1. </span>ローレンツアトラクタ<a class="headerlink" href="#ローレンツアトラクタ" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>次はローレンツアトラクタを描いてみよう．</p>
+<p>次はローレンツアトラクタを描いてみましょう．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{eqnarray}
     \frac{{\rm d}x}{{\rm d}t} &amp;&amp;= -px +py    \\
     \frac{{\rm d}y}{{\rm d}t} &amp;&amp;= -xz +rx -y \\
     \frac{{\rm d}z}{{\rm d}t} &amp;&amp;= -xy +bz
 \end{eqnarray}\end{split}\]</div>
-<p>ここで，<span class="math notranslate nohighlight">\(p=10, r=28, b=8/3\)</span>を使う(wikipedia). パラメーターは引数argに追加することができる．</p>
+<p>ここで，<span class="math notranslate nohighlight">\(p=10, r=28, b=8/3\)</span>を使いました(wikipedia). パラメーターは引数argに追加することができます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -474,7 +471,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>綺麗なカオスが見れる．</p>
+<p>綺麗なカオスが見れます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -500,11 +497,11 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_2_nonlinear_6_1.svg" src="../_images/notebooks_2_nonlinear_6_1.svg" /></div>
 </div>
-</section>
-<section id="SIRモデル">
+</div>
+<div class="section" id="SIRモデル">
 <h2><span class="section-number">2.2. </span>SIRモデル<a class="headerlink" href="#SIRモデル" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>最近有名なやつ． <a class="reference external" href="https://ja.wikipedia.org/wiki/%E7%96%AB%E5%AD%A6%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%8C%BA%E7%94%BB%E3%83%A2%E3%83%87%E3%83%AB">https://ja.wikipedia.org/wiki/%E7%96%AB%E5%AD%A6%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%8C%BA%E7%94%BB%E3%83%A2%E3%83%87%E3%83%AB</a></p>
-<p>Sが感染しうる個体，Iが感染者，Rが免疫，死亡，位置的などの意味での抵抗獲得者を表す．</p>
+<p>最近有名なやつです． <a class="reference external" href="https://ja.wikipedia.org/wiki/%E7%96%AB%E5%AD%A6%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%8C%BA%E7%94%BB%E3%83%A2%E3%83%87%E3%83%AB">https://ja.wikipedia.org/wiki/%E7%96%AB%E5%AD%A6%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%8C%BA%E7%94%BB%E3%83%A2%E3%83%87%E3%83%AB</a></p>
+<p>Sが感染しうる個体，Iが感染者，Rが免疫，死亡，位置的などの意味での抵抗獲得者を表します．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{eqnarray}
 \frac{{\rm d}S}{{\rm d}t}&amp;&amp;=-\frac{\beta IS}{N}\\
@@ -528,9 +525,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>基本再生産数<span class="math notranslate nohighlight">\(\beta/\gamma\)</span>を15にした．</p>
+<p>基本再生産数<span class="math notranslate nohighlight">\(\beta/\gamma\)</span>を15にしています．</p>
 <p><a class="reference external" href="http://idsc.nih.go.jp/training/22kanri/22pdf/sep16_01.pdf">http://idsc.nih.go.jp/training/22kanri/22pdf/sep16_01.pdf</a></p>
-<p>によると“はしか”がこのくらい．　結構な感染爆発が起きるが，中々治らない．という予想になる．</p>
+<p>によると“はしか”がこのくらい．　結構な感染爆発が起きるが，中々治らない．という感じになります．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -569,8 +566,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

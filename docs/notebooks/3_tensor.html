@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>3. テンソルODE &mdash; ode-collections 1.0 ドキュメント</title>
@@ -22,14 +21,14 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
         <script src="../_static/translations.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -38,8 +37,6 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="4. 1次元場PDE - 基礎編 -" href="4_1D-field-fundamental.html" />
@@ -99,7 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="5_1D-field-advance.html">5. 1次元場PDE - 応用編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="6_2D-field.html">6. 2次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7_2D-field_advance.html">7. 2次元場PDE - 応用編 -</a></li>
-<li class="toctree-l1"><a class="reference internal" href="8_3D-field.html">8. 3次元場PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="99_appendix.html">8. おまけ</a></li>
 </ul>
 
             
@@ -434,7 +431,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="テンソルODE">
+<div class="section" id="テンソルODE">
 <h1><span class="section-number">3. </span>テンソルODE<a class="headerlink" href="#テンソルODE" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -447,14 +444,14 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<section id="Maxwellの応力挙動">
+<div class="section" id="Maxwellの応力挙動">
 <h2><span class="section-number">3.1. </span>Maxwellの応力挙動<a class="headerlink" href="#Maxwellの応力挙動" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>連続体を扱うとき，２階のテンソルが頻出する． 例えばMaxwell流体の３次元構成関係を見てみよう，応力<span class="math notranslate nohighlight">\(\sigma_{ij}\)</span>の時間発展は，<span class="math notranslate nohighlight">\(\kappa_{ij}=\nabla_i v_j\)</span>は速度勾配，<span class="math notranslate nohighlight">\(G\)</span>は平衡圧として，以下の形で書ける．</p>
+<p>連続体を扱うとき，２階のテンソルが頻出します． 例えばMaxwell流体の３次元構成関係を見てましょう，応力<span class="math notranslate nohighlight">\(\sigma_{ij}\)</span>の時間発展は，<span class="math notranslate nohighlight">\(\kappa_{ij}=\nabla_i v_j\)</span>は速度勾配，<span class="math notranslate nohighlight">\(G\)</span>は平衡圧として，以下の形で書けます．</p>
 <div class="math notranslate nohighlight">
 \[\frac{{\rm d}\boldsymbol\sigma}{{\rm d} t} =
 \boldsymbol\kappa\cdot\boldsymbol\sigma +
 \boldsymbol\sigma\cdot\boldsymbol\kappa^T - (\boldsymbol \sigma-G\boldsymbol I)\]</div>
-<p>こうなると，自分で実装するのは煩わしい．そこで，これもsolve_ivpに解いてもらおう.<span class="math notranslate nohighlight">\(xy\)</span>方向にせん断変形を与える．</p>
+<p>こうなると，自分で実装するのは煩わしいですね．そこで，これもsolve_ivpに解いてもらいましょう.<span class="math notranslate nohighlight">\(xy\)</span>方向にせん断変形を与えます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -476,9 +473,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>maxwell関数内で，受け取った<span class="math notranslate nohighlight">\(\sigma\)</span>を二次元にreshapeすること， 返り値を一次元で返す必要があることに注意する．</p>
-<p>しかし，数式をほとんどそのままの見た目で実装できるのは非常に嬉しい．</p>
-<p>成長せん断粘度<span class="math notranslate nohighlight">\(\eta_s = \sigma_{xy}/\kappa_{xy}\)</span>を見てみる．</p>
+<p>maxwell関数内で，受け取った<span class="math notranslate nohighlight">\(\sigma\)</span>を二次元にreshapeすること， 返り値を一次元で返す必要があることに注意します．</p>
+<p>ギリシャ文字はjupyterlabで打っています．　数式をほとんどそのままの見た目で実装できるのは非常に嬉しいですね．</p>
+<p>成長せん断粘度<span class="math notranslate nohighlight">\(\eta_s = \sigma_{xy}/\kappa_{xy}\)</span>を見てましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -504,10 +501,10 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/notebooks_3_tensor_6_1.png" src="../_images/notebooks_3_tensor_6_1.png" />
 </div>
 </div>
-</section>
-<section id="Giesekusの応力挙動">
+</div>
+<div class="section" id="Giesekusの応力挙動">
 <h2><span class="section-number">3.2. </span>Giesekusの応力挙動<a class="headerlink" href="#Giesekusの応力挙動" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Giesekus流体に変更してみよう．　構成式は以下の形をしている．</p>
+<p>Giesekus流体に変更してみましょう．　構成式は以下の形をしている．</p>
 <div class="math notranslate nohighlight">
 \[\frac{{\rm d}\boldsymbol\sigma}{{\rm d} t} =
 \boldsymbol\kappa\cdot\boldsymbol\sigma +
@@ -536,7 +533,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>粘度のオーバーシュートと定常値の低減（シアシニング）を観察できる</p>
+<p>粘度のオーバーシュートと定常値の低減（シアシニング）を観察できます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -571,8 +568,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

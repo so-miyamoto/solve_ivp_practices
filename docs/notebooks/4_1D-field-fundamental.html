@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>4. 1次元場PDE - 基礎編 - &mdash; ode-collections 1.0 ドキュメント</title>
@@ -22,14 +21,14 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
         <script src="../_static/translations.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -38,8 +37,6 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="5. 1次元場PDE - 応用編 -" href="5_1D-field-advance.html" />
@@ -100,7 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="5_1D-field-advance.html">5. 1次元場PDE - 応用編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="6_2D-field.html">6. 2次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7_2D-field_advance.html">7. 2次元場PDE - 応用編 -</a></li>
-<li class="toctree-l1"><a class="reference internal" href="8_3D-field.html">8. 3次元場PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="99_appendix.html">8. おまけ</a></li>
 </ul>
 
             
@@ -435,9 +432,9 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="1次元場PDE---基礎編--">
+<div class="section" id="1次元場PDE---基礎編--">
 <h1><span class="section-number">4. </span>1次元場PDE - 基礎編 -<a class="headerlink" href="#1次元場PDE---基礎編--" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>時間だけでなく位置<span class="math notranslate nohighlight">\(x\)</span>に依存する偏微分方程式を考える．　<span class="math notranslate nohighlight">\(x\)</span>に対する空間の差分化さえできれば．後は連立ODEと同じになる．</p>
+<p>時間だけでなく位置<span class="math notranslate nohighlight">\(x\)</span>に依存する偏微分方程式を考えてみましょう．　<span class="math notranslate nohighlight">\(x\)</span>に対する空間の差分化さえできれば．後は連立ODEと同じになります．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -449,15 +446,15 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<section id="拡散方程式">
+<div class="section" id="拡散方程式">
 <h2><span class="section-number">4.1. </span>拡散方程式<a class="headerlink" href="#拡散方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>熱拡散の問題を考えよう． 一次元場の熱保存式は，次の式で書ける</p>
+<p>熱拡散の問題を考えます． 一次元場の熱保存式は，次の式で書けます</p>
 <div class="math notranslate nohighlight">
 \[\frac{\partial \theta}{\partial t}= \alpha\frac{\partial^2 \theta}{\partial x^2}\]</div>
-<p><span class="math notranslate nohighlight">\(x\)</span>の空間差分をとる．</p>
+<p><span class="math notranslate nohighlight">\(x\)</span>の空間差分をとると．</p>
 <div class="math notranslate nohighlight">
 \[\frac{\partial \theta^n}{\partial t}= - \alpha\frac{\theta^{n+1}-2\theta^{n}+\theta^{n-1}}{\Delta x^2}\]</div>
-<p><span class="math notranslate nohighlight">\(\theta=1\)</span> at <span class="math notranslate nohighlight">\(x=0,1\)</span>を境界として，<span class="math notranslate nohighlight">\(x\)</span>が<span class="math notranslate nohighlight">\([0,1]\)</span>の範囲を考える．</p>
+<p><span class="math notranslate nohighlight">\(\theta=1\)</span> at <span class="math notranslate nohighlight">\(x=0,1\)</span>を境界として，<span class="math notranslate nohighlight">\(x\)</span>が<span class="math notranslate nohighlight">\([0,1]\)</span>の範囲を計算します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -498,16 +495,16 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/notebooks_4_1D-field-fundamental_5_0.png" src="../_images/notebooks_4_1D-field-fundamental_5_0.png" />
 </div>
 </div>
-</section>
-<section id="移流方程式">
+</div>
+<div class="section" id="移流方程式">
 <h2><span class="section-number">4.2. </span>移流方程式<a class="headerlink" href="#移流方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>矩形波の進行問題を考えよう． 等速流一次元場の質量保存式は，次の式で書ける</p>
+<p>矩形波の進行問題を考えてみましょう． 等速流一次元場の質量保存式は，次の式で書けます．</p>
 <div class="math notranslate nohighlight">
 \[\frac{\partial \rho}{\partial t}+ v_x\frac{\partial \rho}{\partial x}=0\]</div>
-<p>この差分の取り扱いは結構難しい．ここでは<span class="math notranslate nohighlight">\(x\)</span>の２次後進差分をとり，許容相対誤差(rtol)を小さくしてみる．</p>
+<p>この差分の取り扱いは結構難しいです．ここでは<span class="math notranslate nohighlight">\(x\)</span>の２次後進差分をとり，許容相対誤差(rtol)を小さくしてみます．</p>
 <div class="math notranslate nohighlight">
 \[\frac{\partial \rho^n}{\partial t}= -v_x\frac{3\rho^{n}-4\rho^{n-1}+\rho^{n-2}}{2\Delta x}\]</div>
-<p><span class="math notranslate nohighlight">\(v_x=1\)</span>を一定値として，<span class="math notranslate nohighlight">\(x\)</span>が<span class="math notranslate nohighlight">\([0,1]\)</span>の範囲を考える．初期条件は,<span class="math notranslate nohighlight">\(\rho(0.0&lt;x&lt;0.2)=1\)</span>　これ以外で<span class="math notranslate nohighlight">\(0\)</span>とする．</p>
+<p><span class="math notranslate nohighlight">\(v_x=1\)</span>を一定値として，<span class="math notranslate nohighlight">\(x\)</span>が<span class="math notranslate nohighlight">\([0,1]\)</span>の範囲を考えます．初期条件は,<span class="math notranslate nohighlight">\(\rho(0.0&lt;x&lt;0.2)=1\)</span>　これ以外で<span class="math notranslate nohighlight">\(0\)</span>とします．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -528,7 +525,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>少し乱れているが，進行する様子が観察できる．ちなみに前進差分で計算すると簡単に発散し，大変なことになる(なった)．</p>
+<p>少し乱れているが，進行する様子が観察できます．ちなみに前進差分で計算すると簡単に発散し，大変なことになります(なった)．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -548,19 +545,19 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/notebooks_4_1D-field-fundamental_9_0.png" src="../_images/notebooks_4_1D-field-fundamental_9_0.png" />
 </div>
 </div>
-</section>
-<section id="波動方程式">
+</div>
+<div class="section" id="波動方程式">
 <h2><span class="section-number">4.3. </span>波動方程式<a class="headerlink" href="#波動方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>時間方向の二階微分が関係する楕円方程式を考えよう．</p>
+<p>時間方向の二階微分式中に登場する波動方程式を考えます．</p>
 <div class="math notranslate nohighlight">
 \[\frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2 u}{\partial x^2}\]</div>
-<p>ここで，ある<span class="math notranslate nohighlight">\(x\)</span>における<span class="math notranslate nohighlight">\(u=u^n\)</span>について<span class="math notranslate nohighlight">\(u, u'=\frac{\partial u}{\partial t}\)</span>に対する2本のODEが書ける</p>
+<p>ここで，ある<span class="math notranslate nohighlight">\(x\)</span>における<span class="math notranslate nohighlight">\(u=u^n\)</span>について<span class="math notranslate nohighlight">\(u, u'=\frac{\partial u}{\partial t}\)</span>に対する2本のODEが書けます</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{eqnarray}
     \frac{\partial u }{\partial t}&amp;&amp;= u'\\
     \frac{\partial u'}{\partial t}&amp;&amp;= c^2\frac{u^{n+1}-2u+u^{n-1}}{\Delta x^2}
 \end{eqnarray}\end{split}\]</div>
-<p><span class="math notranslate nohighlight">\(x=0\)</span>を固定端<span class="math notranslate nohighlight">\(u=0\)</span>,<span class="math notranslate nohighlight">\(x=1\)</span>を自由端<span class="math notranslate nohighlight">\(u'=0\)</span>として,区間<span class="math notranslate nohighlight">\([0,1]\)</span>にある正弦波形の時間発展を見てみよう．</p>
+<p><span class="math notranslate nohighlight">\(x=0\)</span>を固定端<span class="math notranslate nohighlight">\(u=0\)</span>,<span class="math notranslate nohighlight">\(x=1\)</span>を自由端<span class="math notranslate nohighlight">\(u'=0\)</span>として,区間<span class="math notranslate nohighlight">\([0,1]\)</span>にある正弦波形の時間発展を見てみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -584,7 +581,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>u[0..n-1],du[0..n-1]をまとめて扱うのがコツ． 上の画像は<span class="math notranslate nohighlight">\(u\)</span>，下の画像は<span class="math notranslate nohighlight">\(u'\)</span>の時間発展を表している．</p>
+<p>u[0..n-1],du[0..n-1]をまとめて扱うのがコツです． 上の画像は<span class="math notranslate nohighlight">\(u\)</span>，下の画像は<span class="math notranslate nohighlight">\(u'\)</span>の時間発展を表しています．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -638,8 +635,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

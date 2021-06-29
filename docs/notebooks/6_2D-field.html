@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>6. 2次元場PDE - 基礎編 - &mdash; ode-collections 1.0 ドキュメント</title>
@@ -22,14 +21,14 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
         <script src="../_static/translations.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -38,8 +37,6 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="7. 2次元場PDE - 応用編 -" href="7_2D-field_advance.html" />
@@ -100,7 +97,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="7_2D-field_advance.html">7. 2次元場PDE - 応用編 -</a></li>
-<li class="toctree-l1"><a class="reference internal" href="8_3D-field.html">8. 3次元場PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="99_appendix.html">8. おまけ</a></li>
 </ul>
 
             
@@ -435,7 +432,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="2次元場PDE---基礎編--">
+<div class="section" id="2次元場PDE---基礎編--">
 <h1><span class="section-number">6. </span>2次元場PDE - 基礎編 -<a class="headerlink" href="#2次元場PDE---基礎編--" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -451,12 +448,12 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<section id="拡散方程式">
+<div class="section" id="拡散方程式">
 <h2><span class="section-number">6.1. </span>拡散方程式<a class="headerlink" href="#拡散方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>温度場の二次元拡散方程式を計算してみよう．</p>
+<p>温度場の二次元拡散方程式を計算してましょう．</p>
 <div class="math notranslate nohighlight">
 \[\partial_t \theta = k(\partial_{xx}+\partial_{yy}) \theta\]</div>
-<p>ラプラシアンを計算する時scipy.convolve2dが便利．“fill”で0境界，“wrap”オプション指定で周期境界，“symm”で勾配なし境界条件が作れる</p>
+<p>ラプラシアンを計算する時scipy.convolve2dが便利です．“fill”で0境界，“wrap”オプション指定で周期境界，“symm”で勾配なし境界条件が作れます</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -524,10 +521,10 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/notebooks_6_2D-field_5_2.png" src="../_images/notebooks_6_2D-field_5_2.png" />
 </div>
 </div>
-</section>
-<section id="Gray-Scott-モデル">
+</div>
+<div class="section" id="Gray-Scott-モデル">
 <h2><span class="section-number">6.2. </span>Gray-Scott モデル<a class="headerlink" href="#Gray-Scott-モデル" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>反応拡散方程式のインスタンスの一つである．</p>
+<p>反応拡散方程式のインスタンスの一つです．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\partial_t u = D_u (\partial_{xx}+\partial_{yy})u + f(u,v) \\
 \partial_t v = D_v (\partial_{xx}+\partial_{yy})u + g(u,v)\end{split}\]</div>
@@ -579,7 +576,7 @@ g(u,v) = + uv^2 - v(F+k)\end{split}\]</div>
 </pre></div>
 </div>
 </div>
-<p>とても面白い模様が見れる. FitzHugh–Nagumo方程式なども有名．</p>
+<p>とても面白い模様が見れます. 他の例としてはFitzHugh–Nagumo方程式なども有名．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -621,14 +618,14 @@ g(u,v) = + uv^2 - v(F+k)\end{split}\]</div>
 <img alt="../_images/notebooks_6_2D-field_10_3.png" src="../_images/notebooks_6_2D-field_10_3.png" />
 </div>
 </div>
-</section>
-<section id="BZ反応">
+</div>
+<div class="section" id="BZ反応">
 <h2><span class="section-number">6.3. </span>BZ反応<a class="headerlink" href="#BZ反応" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>平衡点周りを振動しつつ，ゆっくりと平衡状態に近づく反応である． モデルはいくつかあるが，今回は下の参考文献中のモデルを用いる．</p>
+<p>平衡点周りを振動しつつ，ゆっくりと平衡状態に近づく反応です． モデルはいくつかあるみたいですが，今回は下の参考文献中のモデルを用いました．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\epsilon \partial_t x = x(1-x) -fz\frac{x-q}{x+q}+D_x (\partial_{xx}+\partial_{yy})x \\
 \partial_t z = x-z + D_z (\partial_{xx}+\partial_{yy}) z\end{split}\]</div>
-<p>ここでは， <a class="reference external" href="https://cattech-lab.com/science-tools/bz-reaction/">https://cattech-lab.com/science-tools/bz-reaction/</a> を参考にした．</p>
+<p>これは， <a class="reference external" href="https://cattech-lab.com/science-tools/bz-reaction/">https://cattech-lab.com/science-tools/bz-reaction/</a> を参考にさせていただきました．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -727,8 +724,8 @@ g(u,v) = + uv^2 - v(F+k)\end{split}\]</div>
 </pre></div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

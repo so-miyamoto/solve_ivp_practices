@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>7. 2次元場PDE - 応用編 - &mdash; ode-collections 1.0 ドキュメント</title>
@@ -22,14 +21,14 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
         <script src="../_static/translations.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -38,11 +37,9 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="8. 3次元場PDE" href="8_3D-field.html" />
+    <link rel="next" title="8. おまけ" href="99_appendix.html" />
     <link rel="prev" title="6. 2次元場PDE - 基礎編 -" href="6_2D-field.html" /> 
 </head>
 
@@ -96,10 +93,10 @@
 <li class="toctree-l1"><a class="reference internal" href="6_2D-field.html">6. 2次元場PDE - 基礎編 -</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">7. 2次元場PDE - 応用編 -</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#TDGLのスピノーダル分解">7.1. TDGLのスピノーダル分解</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#非圧縮Navie-Stokes方程式">7.2. 非圧縮Navie-Stokes方程式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#非圧縮性Navie-Stokes方程式">7.2. 非圧縮性Navie-Stokes方程式</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="8_3D-field.html">8. 3次元場PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="99_appendix.html">8. おまけ</a></li>
 </ul>
 
             
@@ -434,10 +431,10 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="2次元場PDE---応用編--">
+<div class="section" id="2次元場PDE---応用編--">
 <h1><span class="section-number">7. </span>2次元場PDE - 応用編 -<a class="headerlink" href="#2次元場PDE---応用編--" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -449,15 +446,15 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<section id="TDGLのスピノーダル分解">
+<div class="section" id="TDGLのスピノーダル分解">
 <h2><span class="section-number">7.1. </span>TDGLのスピノーダル分解<a class="headerlink" href="#TDGLのスピノーダル分解" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TDGLは時間依存ギンツブルグランダウの略である．オーダーパラメータ<span class="math notranslate nohighlight">\(\psi\)</span>の保存則が，</p>
+<p>TDGLは時間依存ギンツブルグランダウの略です．オーダーパラメータ<span class="math notranslate nohighlight">\(\psi\)</span>の保存則が，</p>
 <div class="math notranslate nohighlight">
 \[\psi = (\partial_{xx}+\partial_{yy})\mu\]</div>
-<p>であり，<span class="math notranslate nohighlight">\(\mu\)</span>はGL-Wilsonハミルトニアンの<span class="math notranslate nohighlight">\(\Psi\)</span>微分であって，</p>
+<p>であり，<span class="math notranslate nohighlight">\(\mu\)</span>はGL-Wilsonハミルトニアンの<span class="math notranslate nohighlight">\(\psi\)</span>微分であって，</p>
 <div class="math notranslate nohighlight">
 \[\mu = - \psi + \psi^3 - (\partial_{xx}+\partial_{yy})\psi\]</div>
-<p>定数を除いて書けるとする．　相分離によるスピノーダル分解を見てみよう．</p>
+<p>定数を除いて書けるとします．　相分離によるスピノーダル分解を見てみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -524,9 +521,9 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/notebooks_7_2D-field_advance_5_2.png" src="../_images/notebooks_7_2D-field_advance_5_2.png" />
 </div>
 </div>
-</section>
-<section id="非圧縮Navie-Stokes方程式">
-<h2><span class="section-number">7.2. </span>非圧縮Navie-Stokes方程式<a class="headerlink" href="#非圧縮Navie-Stokes方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
+</div>
+<div class="section" id="非圧縮性Navie-Stokes方程式">
+<h2><span class="section-number">7.2. </span>非圧縮性Navie-Stokes方程式<a class="headerlink" href="#非圧縮性Navie-Stokes方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -536,8 +533,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -547,7 +544,7 @@ div.rendered_html tbody tr:hover {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="8_3D-field.html" class="btn btn-neutral float-right" title="8. 3次元場PDE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="99_appendix.html" class="btn btn-neutral float-right" title="8. おまけ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="6_2D-field.html" class="btn btn-neutral float-left" title="6. 2次元場PDE - 基礎編 -" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

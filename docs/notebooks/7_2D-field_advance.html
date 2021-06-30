@@ -524,6 +524,108 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="section" id="非圧縮性Navie-Stokes方程式">
 <h2><span class="section-number">7.2. </span>非圧縮性Navie-Stokes方程式<a class="headerlink" href="#非圧縮性Navie-Stokes方程式" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>2次元に適用できる流れ関数渦度法を用いて，Navie-Stokes方程式の数値解の例を見てみましょう．</p>
+<div class="math notranslate nohighlight">
+\[\partial_{t}\omega + \partial_y \phi \partial_x\omega_x- \partial_x\phi\partial_y\omega
+=\nu(\partial_{xx}+\partial_{yy})\omega\]</div>
+<div class="math notranslate nohighlight">
+\[(\partial_{xx}+\partial_{yy})\phi=-\omega\]</div>
+<p>参考資料はこちら． <a class="reference external" href="https://index-press.co.jp/books/digest/ceslib2.pdf">https://index-press.co.jp/books/digest/ceslib2.pdf</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># parameter</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">Nx</span> <span class="o">=</span> <span class="n">Ny</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">Δ</span> <span class="o">=</span> <span class="n">Δx</span> <span class="o">=</span> <span class="n">Δy</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">D</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">Δ</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span>   <span class="n">D</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="n">D</span>  <span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">D</span><span class="p">,</span>  <span class="n">D</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>   <span class="n">D</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],])</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">N</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s</span>  <span class="p">)</span><span class="o">/</span><span class="n">Δ</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">k</span><span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span>\
+    <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="o">+</span><span class="mf">1.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Δ</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span>\
+    <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="o">+</span><span class="mf">1.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Δ</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">k</span><span class="o">=+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span>\
+    <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="o">+</span><span class="mf">1.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s</span><span class="o">-</span><span class="n">s</span><span class="p">)</span><span class="o">/</span><span class="n">Δ</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">k</span><span class="o">=-</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span>\
+    <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="o">+</span><span class="mf">1.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s</span><span class="o">-</span><span class="n">s</span><span class="p">)</span><span class="o">/</span><span class="n">Δ</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">k</span><span class="o">=+</span><span class="n">s</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">Re</span><span class="o">=</span><span class="mf">1.</span>
+<span class="c1"># init</span>
+<span class="n">ω</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+<span class="n">ω</span><span class="p">[</span><span class="n">N</span><span class="o">//</span><span class="mi">4</span><span class="p">,</span><span class="n">N</span><span class="o">//</span><span class="mi">4</span><span class="p">]</span>    <span class="o">=</span><span class="mf">1.0</span> <span class="c1"># vor1</span>
+<span class="n">ω</span><span class="p">[</span><span class="mi">3</span><span class="o">*</span><span class="n">N</span><span class="o">//</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="n">N</span><span class="o">//</span><span class="mi">4</span><span class="p">]</span><span class="o">=</span><span class="mf">1.0</span> <span class="c1"># vor2</span>
+<span class="n">init</span> <span class="o">=</span> <span class="n">ω</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="c1"># time</span>
+<span class="n">t_span</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">80.0</span><span class="p">]</span>
+<span class="n">t_eval</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">t_span</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="c1"># ODEs</span>
+<span class="k">def</span> <span class="nf">ODEs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">ω</span><span class="p">):</span>
+    <span class="n">ψ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="o">-</span><span class="n">ω</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">ω</span> <span class="o">=</span> <span class="n">ω</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">dω</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+    <span class="n">dω</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.25</span><span class="o">/</span><span class="n">Δ</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">ψ</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span><span class="o">-</span><span class="n">ψ</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])[:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">ω</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:]</span><span class="o">-</span><span class="n">ω</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">2</span><span class="p">])[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">+</span> \
+        <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">Re</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">ω</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">Δ</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">ω</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span><span class="o">/</span><span class="n">Δ</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dω</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="c1">#</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">ODEs</span><span class="p">,</span><span class="n">t_span</span><span class="p">,</span><span class="n">init</span><span class="p">,</span><span class="s1">&#39;RK23&#39;</span><span class="p">,</span><span class="n">t_eval</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>初期状態で与えた渦が合体して一つの大きな渦になっていく</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">+</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ω</span> <span class="ow">in</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+    <span class="n">ψ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="o">-</span><span class="n">ω</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">vx</span><span class="p">,</span><span class="n">vy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">ψ</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">Δ</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">ψ</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">Δ</span>
+    <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="p">,</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">vx</span><span class="p">[</span><span class="mi">1</span><span class="p">:,:]</span><span class="o">+</span><span class="n">vx</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">vy</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">+</span><span class="n">vy</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ψ</span><span class="p">),</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_7_2D-field_advance_10_0.png" src="../_images/notebooks_7_2D-field_advance_10_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_7_2D-field_advance_10_1.png" src="../_images/notebooks_7_2D-field_advance_10_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_7_2D-field_advance_10_2.png" src="../_images/notebooks_7_2D-field_advance_10_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_7_2D-field_advance_10_3.png" src="../_images/notebooks_7_2D-field_advance_10_3.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_7_2D-field_advance_10_4.png" src="../_images/notebooks_7_2D-field_advance_10_4.png" />
+</div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
